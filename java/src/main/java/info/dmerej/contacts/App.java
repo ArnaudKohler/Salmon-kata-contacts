@@ -26,12 +26,18 @@ public class App {
         }
         int count = Integer.parseInt(args[0]);
 
+        
         App app = null;
+        long start = System.currentTimeMillis();
+        
         try {
             app = new App();
             app.contactsGenerator.insertManyContacts(count);
             app.lookupContact(count);
         } finally {
+            long end = System.currentTimeMillis();
+            long elapsed = end - start;
+            System.out.format("Program took %d ms\n", elapsed);
             if (app != null) {
                 app.close();
             }
