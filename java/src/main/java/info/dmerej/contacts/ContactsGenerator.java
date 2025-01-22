@@ -10,10 +10,20 @@ public class ContactsGenerator {
     }
 
     public void insertManyContacts(int numContacts) {
-        System.out.format("Inserting %d contacts ...", numContacts);
-        // TODO
-        // At the end of this call, the db should contain exactly `numContacts` contacts,
-        // from email-1@domain.tld to email-{numContacts}@domain.tld
+        System.out.format("Inserting %d contacts ... \n", numContacts);
+        for (int i = 1; i <= numContacts; i++) {
+            String email = String.format("email-%d@tld", i);
+            String name = String.format("name %d", i);
+            String sql = "INSERT INTO contacts (id, email, name) VALUES (?, ?, ?)";
+            try (var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, i);
+            preparedStatement.setString(2, email);
+            preparedStatement.setString(3, name);
+            preparedStatement.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         System.out.println("done");
     }
 
